@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  web:
+    container_name: 'todo'
+    image: 'todo'
+    build:
+      context: ./Todo/Todo.API
+      dockerfile: Dockerfile
+    ports:
+     - "8081:8081"
+    networks:
+      - todo-network
+    volumes:
+      - ./Log:/app/Log
+
+  todoDB:
+    image: mcr.microsoft.com/mssql/server
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=SwN12345678
+    ports:
+      - "1434:1433"
+    networks:
+      - todo-network
+    volumes:
+      - ./sqlserver-data:/var/opt/mssql/data
+    restart: always
+    mem_limit: 2g
+    cpu_shares: 1024
+
+networks:
+  todo-network:
+    driver: bridge
