@@ -13,8 +13,11 @@ services:
       - todo-network
     volumes:
       - ./Log:/app/Log
+    depends_on:
+      - todoServerDB
+    restart: on-failure
 
-  todoDB:
+  todoServerDB:
     image: mcr.microsoft.com/mssql/server
     container_name: sqlserver
     environment:
@@ -26,7 +29,7 @@ services:
       - todo-network
     volumes:
       - ./sqlserver-data:/var/opt/mssql/data
-    restart: always
+    restart: on-failure
     mem_limit: 2g
     cpu_shares: 1024
 

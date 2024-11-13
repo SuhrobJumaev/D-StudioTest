@@ -1,4 +1,6 @@
-﻿namespace Todo.API.Data.Extensions
+﻿using System.Text.Json;
+
+namespace Todo.API.Data.Extensions
 {
     public static class DatabaseExtensions
     {
@@ -9,6 +11,25 @@
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
             context.Database.MigrateAsync().GetAwaiter().GetResult();
+
+            await SeedAsync(context);
+        }
+
+        private static async Task SeedAsync(ApplicationDbContext context)
+        {
+           await SeedUserAsync(context);
+        }
+
+        private static async Task SeedUserAsync(ApplicationDbContext context)
+        {
+            if (!await context.Users.AnyAsync())
+            {
+                var user = InitialData.GetUsers();
+                Console.WriteLine("USer for init " + JsonSerializer.Serialize(user));
+
+                await context.Users.AddRangeAsync(InitialData.GetUsers());
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

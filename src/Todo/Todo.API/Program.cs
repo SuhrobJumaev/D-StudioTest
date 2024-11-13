@@ -22,11 +22,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    await app.InitializeDatabaseAsync();
+   
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+await app.InitializeDatabaseAsync();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

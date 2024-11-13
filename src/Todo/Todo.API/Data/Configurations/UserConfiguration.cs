@@ -26,7 +26,8 @@ namespace Todo.API.Data.Configurations
                 .HasMaxLength(150);
 
             builder.Property(u => u.Role)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion<short>();
 
             builder.Property( u => u.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");

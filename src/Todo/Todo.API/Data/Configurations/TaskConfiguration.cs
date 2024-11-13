@@ -17,7 +17,8 @@ namespace Todo.API.Data.Configurations
                 .HasMaxLength(500);
 
             builder.Property(t => t.Status)
-                .HasDefaultValue(TasksStatus.Pendig);
+                .HasDefaultValue(TasksStatus.Pendig)
+                 .HasConversion<short>();
 
             builder.Property(t => t.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");

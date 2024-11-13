@@ -393,6 +393,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-
+/src/sqlserver-data
 # JetBrains Rider
 *.sln.iml

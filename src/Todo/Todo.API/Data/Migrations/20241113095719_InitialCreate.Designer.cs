@@ -12,7 +12,7 @@ using Todo.API.Data;
 namespace Todo.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241112072003_InitialCreate")]
+    [Migration("20241113095719_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
