@@ -1,3 +1,4 @@
+using log4net.Config;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Todo.API.Data;
 using Todo.API.Data.Extensions;
@@ -18,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+XmlConfigurator.Configure(new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config")));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
