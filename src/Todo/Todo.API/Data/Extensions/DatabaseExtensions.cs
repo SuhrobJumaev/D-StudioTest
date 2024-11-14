@@ -10,9 +10,13 @@ namespace Todo.API.Data.Extensions
 
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
-            context.Database.MigrateAsync().GetAwaiter().GetResult();
+            var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
 
-            await SeedAsync(context);
+            if (pendingMigrations.Any())
+            {
+                context.Database.MigrateAsync().GetAwaiter().GetResult();
+                await SeedAsync(context);
+            }          
         }
 
         private static async Task SeedAsync(ApplicationDbContext context)
