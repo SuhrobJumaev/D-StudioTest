@@ -10,6 +10,7 @@ namespace Todo.API.Data
 
         public DbSet<TaskModel> Tasks => Set<TaskModel>();
         public DbSet<UserModel> Users => Set<UserModel>();
+        public DbSet<RefreshTokenModel> RefreshTokens => Set<RefreshTokenModel>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

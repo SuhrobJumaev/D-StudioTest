@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Todo.API.Data;
 
@@ -11,9 +12,11 @@ using Todo.API.Data;
 namespace Todo.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114142124_AddUseridToTask")]
+    partial class AddUseridToTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,12 +50,6 @@ namespace Todo.API.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId", "IsRevoked")
-                        .HasDatabaseName("RefreshToken_UserId_IsRevoked");
-
-                    b.HasIndex("UserId", "Token")
-                        .HasDatabaseName("RefreshToken_UserId_Token");
 
                     b.ToTable("RefreshTokens");
                 });

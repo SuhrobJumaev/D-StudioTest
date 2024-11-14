@@ -12,8 +12,8 @@ using Todo.API.Data;
 namespace Todo.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241113095719_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241114145839_AddCompositeIndexesToRefreshTokens")]
+    partial class AddCompositeIndexesToRefreshTokens
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,41 @@ namespace Todo.API.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Todo.API.Models.RefreshTokenModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "IsRevoked")
+                        .HasDatabaseName("RefreshToken_UserId_IsRevoked");
+
+                    b.HasIndex("UserId", "Token")
+                        .HasDatabaseName("RefreshToken_UserId_Token");
+
+                    b.ToTable("RefreshTokens");
+                });
 
             modelBuilder.Entity("Todo.API.Models.TaskModel", b =>
                 {
@@ -56,7 +91,12 @@ namespace Todo.API.Data.Migrations
                         .HasColumnType("smallint")
                         .HasDefaultValue((short)0);
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tasks");
                 });
@@ -103,6 +143,22 @@ namespace Todo.API.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Todo.API.Models.TaskModel", b =>
+                {
+                    b.HasOne("Todo.API.Models.UserModel", "User")
+                        .WithMany("Tasks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Todo.API.Models.UserModel", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

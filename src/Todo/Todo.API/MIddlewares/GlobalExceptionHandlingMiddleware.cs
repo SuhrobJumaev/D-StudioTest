@@ -41,7 +41,7 @@ namespace Todo.API.MIddlewares
         {
             ApiResponse response = new ()
             {
-                StatusCode = HttpStatusCode.BadRequest,
+                Code = ApiErrorCode.Failed,
                 Message = "Request validation error!",
                 Errors = ex.Errors.Select(x => new ValidationResponse
                 {
@@ -65,7 +65,7 @@ namespace Todo.API.MIddlewares
 
             ApiResponse response = new()
             {
-                StatusCode = HttpStatusCode.InternalServerError,
+                Code = ApiErrorCode.Failed,
                 Message = "Failed to execute the request, error: " + ex.Message,
                 Errors = Enumerable.Empty<ValidationResponse>()
             };

@@ -10,5 +10,7 @@ namespace Todo.API.Models
         public TasksStatus Status { get; set; } = TasksStatus.Pendig;
         public DateTime CreatedDate { get; set; } 
         public DateTime? ModifiedDate { get; set; }
+        public int UserId { get; set; }
+        public UserModel User { get; set; }
     }
 }

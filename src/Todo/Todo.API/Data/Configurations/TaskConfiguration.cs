@@ -25,6 +25,12 @@ namespace Todo.API.Data.Configurations
 
             builder.Property(t => t.ModifiedDate)
                 .IsRequired(false);
+
+            builder.HasOne(t => t.User)           
+                    .WithMany(u => u.Tasks)           
+                    .HasForeignKey(t => t.UserId)    
+                    .IsRequired();
+
         }
     }
 
