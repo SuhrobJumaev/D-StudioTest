@@ -67,10 +67,11 @@ namespace Todo.API.Respositories
             return true;
         }
 
-        public async Task<List<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions queryOptions, CancellationToken token = default)
+        public async Task<List<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions queryOptions, int userId, CancellationToken token = default)
         {
             var query = _context.Tasks
                 .Where(t => string.IsNullOrEmpty(queryOptions.Search) || t.Name.Contains(queryOptions.Search))
+                .Where(t => t.UserId == userId)
                 .Join(
                     _context.Users,
                     task => task.UserId,
@@ -94,10 +95,11 @@ namespace Todo.API.Respositories
             return await query.ToListAsync(token);
         }
 
-        public async Task<int> GetCountTaskCountAsync(UserQueryOptions queryOptions, CancellationToken token = default)
+        public async Task<int> GetCountTaskCountAsync(UserQueryOptions queryOptions,int userId, CancellationToken token = default)
         {
             return await _context.Tasks
                 .Where(t => string.IsNullOrEmpty(queryOptions.Search) || t.Name.Contains(queryOptions.Search))
+                .Where(t => t.UserId == userId)
                 .Join(
                     _context.Users,
                     task => task.UserId,        

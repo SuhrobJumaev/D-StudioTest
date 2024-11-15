@@ -123,16 +123,16 @@ namespace Todo.API.Services
             return task;
         }
 
-        public async Task<PaginationResponse<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions userQueryOptions, CancellationToken token = default)
+        public async Task<PaginationResponse<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions userQueryOptions, int userId, CancellationToken token = default)
         {
             PaginationResponse<TaskUserDtoResponse> response = new();
 
             userQueryOptions.Limit = userQueryOptions.ItemsOfPage;
             userQueryOptions.Skip = userQueryOptions.Page == 1 ? 0 : (userQueryOptions.Page - 1) * userQueryOptions.Limit;
 
-            IEnumerable<TaskUserDtoResponse> tasks = await _taskRepository.GetTasksAsync(userQueryOptions, token);
+            IEnumerable<TaskUserDtoResponse> tasks = await _taskRepository.GetTasksAsync(userQueryOptions,userId, token);
 
-            int countUsers = await _taskRepository.GetCountTaskCountAsync(userQueryOptions, token);
+            int countUsers = await _taskRepository.GetCountTaskCountAsync(userQueryOptions, userId, token);
 
             response.Enttities = tasks;
             response.CountPage = (int)Math.Ceiling(countUsers / (decimal)userQueryOptions.ItemsOfPage!);

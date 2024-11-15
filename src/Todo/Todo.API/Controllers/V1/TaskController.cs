@@ -87,7 +87,8 @@ namespace Todo.API.Controllers.V1
         [ProducesResponseType(typeof(PaginationResponse<UserModel>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetTasksAsync([FromQuery] UserQueryOptions queryOptions, CancellationToken token = default)
         {
-            var paginationResponse = await _service.GetTasksAsync(queryOptions, token);
+            var userId = int.Parse(HttpContext.User.FindFirstValue("UserId")!);
+            var paginationResponse = await _service.GetTasksAsync(queryOptions, userId, token);
 
             if (paginationResponse.Enttities.Any())
                 return Ok(paginationResponse);

@@ -7,7 +7,7 @@
         Task<int> CreateTaskAsync(TaskModel task, CancellationToken token = default);
         Task<bool> UpdateTaskAsync(TaskModel task, CancellationToken token = default);
         Task<bool> DeleteTaskAsync(TaskModel task, CancellationToken token = default);
-        Task<List<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions queryOptions, CancellationToken token = default);
-        Task<int> GetCountTaskCountAsync(UserQueryOptions queryOptions, CancellationToken token = default);
+        Task<List<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions queryOptions, int userId, CancellationToken token = default);
+        Task<int> GetCountTaskCountAsync(UserQueryOptions queryOptions, int userId, CancellationToken token = default);
     }
 }

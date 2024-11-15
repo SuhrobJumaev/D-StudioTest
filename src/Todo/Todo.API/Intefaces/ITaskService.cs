@@ -6,6 +6,6 @@
         Task<ApiResponse> UpdateTaskAsync(UpdateTaskDto updateTaskDto, CancellationToken token = default);
         Task<ApiResponse> DeleteTaskAsync(int id, CancellationToken token = default);
         Task<TaskUserDtoResponse?> GetTaskByIdAsync(int id, CancellationToken token = default);
-        Task<PaginationResponse<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions userQueryOptions, CancellationToken token = default);
+        Task<PaginationResponse<TaskUserDtoResponse>> GetTasksAsync(UserQueryOptions userQueryOptions, int userId, CancellationToken token = default);
     }
 }
